@@ -91,10 +91,7 @@ def moderate_text(text: str, uncultured_words: Iterable[str]) -> str:
     for uncultured_word in uncultured_words:
         text = text.replace(uncultured_word, '#' * len(uncultured_word))
 
-    if text[0] != '#':
-        text = text.replace(text[0], text[0].upper(), 1)
-
-    return text
+    return text.replace(text[0], text[0].upper(), 1)
 
 
 def create_request_for_loan(user_info: str) -> str:
