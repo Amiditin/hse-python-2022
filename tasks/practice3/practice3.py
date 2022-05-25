@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Dict, Any, List, Optional
+import csv
 
 
 def count_words(text: str) -> Dict[str, int]:
@@ -28,7 +29,19 @@ def count_words(text: str) -> Dict[str, int]:
 
     # пиши свой код здесь
 
-    return {}
+    PUNCTUATION = '''!()-[]{};?@#$%:'"\\,./^&;*_'''
+
+    text_without_punctuation = ''.join(
+        [symbol for symbol in text if symbol not in PUNCTUATION]).lower()
+
+    dictionary = {}
+
+    for word in text_without_punctuation.split():
+        if word.isalpha():
+            dictionary[word] = dictionary[word] + \
+                1 if dictionary.get(word) else 1
+
+    return dictionary
 
 
 def exp_list(numbers: List[int], exp: int) -> List[int]:
@@ -42,7 +55,7 @@ def exp_list(numbers: List[int], exp: int) -> List[int]:
 
     # пиши свой код здесь
 
-    return []
+    return [num ** exp for num in numbers]
 
 
 def get_cashback(operations: List[Dict[str, Any]], special_category: List[str]) -> float:
@@ -107,4 +120,16 @@ def csv_reader(header: str) -> int:
 
     # пиши свой код здесь
 
-    return 0
+    unique_words_list = []
+    unique_words_count = 0
+
+    file = get_path_to_file()
+    with open(file) as csvfile:
+        reader = csv.DictReader(csvfile)
+
+        for row in reader:
+            if row[header] not in unique_words_list:
+                unique_words_list.append(row[header])
+                unique_words_count += 1
+
+    return unique_words_count
